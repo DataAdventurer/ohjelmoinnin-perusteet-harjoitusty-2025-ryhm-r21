@@ -9,7 +9,7 @@ class ComboBoxApp:
         self.root.geometry("300x250")
         self.root.title("Valitse tuote")
         
-        self.catalog = tueteluettelo()
+        self.catalog = tuoteluettelo()
         self._init_catalog()
         self._create_widgets()
     
