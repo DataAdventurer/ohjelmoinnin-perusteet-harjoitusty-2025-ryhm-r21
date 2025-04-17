@@ -19,7 +19,7 @@ def main():
     käyttäjätunnus1 = input("Anna käyttäjän nimi:")
     PINkoodi1 = input("Anna Uusi PIN-koodi:")
     luottokortti_numero = random.randint(10**15, 10**16 - 1)
-    print(f'Luotu luottokortti numero: FI{luottokortti_numero}')
+    print(f'Luotu luottokortt   i numero: FI{luottokortti_numero}')
     
     print("Kirjaudu uudelleen pankkitilille nähdääksesi tilin tilanteen.")
 
@@ -31,6 +31,7 @@ def main():
 
         if käyttäjätunnus1 == käyttäjätunnus2 and PINkoodi1 == PINkoodi2:
             print("Oikein!")
+            oma_tili = Account("Personal account", 10000.0)
             break
         else:
             yrityksiä = yrityksiä + 1
