@@ -1,7 +1,6 @@
 from tkinter import *
 from tkinter import ttk
-from tuotteet import tuote
-from tuotteet import tuoteluettelo
+from tuotteet import tuote, tuoteluettelo
 
 class ComboBoxApp:
     def __init__(self, root):
@@ -15,17 +14,16 @@ class ComboBoxApp:
     
     def _init_catalog(self):
         # Esimerkkejä tuotteista
-        self.catalog.add_product(Product("Apple", 1.50, "Fruit"))
-        self.catalog.add_product(Product("Banana", 0.75, "Fruit"))
-        
+        self.catalog.lisaa_tuote(tuote("Apple", 1.50, "Fruit"))
+        self.catalog.lisaa_tuote(tuote("Banana", 0.75, "Fruit"))
     
     def _create_widgets(self):
         # Lue UI-elementit
-        self.combo = ttk.Combobox(self.root, values=self.catalog.get_product_names())
+        self.combo = ttk.Combobox(self.root, values=self.catalog.hae_tuotteet())
         self.combo.set("Valitse tuote")
         self.combo.pack(pady=10)
         
-        Button(self.root, text="Näytä valinta",command=self.show_selection).pack(pady=5)
+        Button(self.root, text="Näytä valinta", command=self.show_selection).pack(pady=5)
         
         self.result_label = Label(self.root, text="")
         self.result_label.pack(pady=10)
