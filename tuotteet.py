@@ -1,5 +1,5 @@
 class tuote:
-    def __init__(self, name, price, category):
+    def __init__(self, nimi, hinta, tuoteryhmä):
         self.name = nimi
         self.price = hinta
         self.category = tuoteryhmä
