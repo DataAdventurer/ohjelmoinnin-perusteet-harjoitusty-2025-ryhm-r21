@@ -1,17 +1,21 @@
 from tkinter import *
-from tkinter import ttk
+from tkinter import ttk, messagebox
 from tuotteet import tuote, tuoteluettelo
+from pankkitili import Account
 
 class ComboBoxApp:
     def __init__(self, root):
         self.root = root
         self.root.geometry("300x250")
         self.root.title("Valitse tuote")
-        
+        self.tili = Account("Käyttäjä", 100.0)
+
         self.catalog = tuoteluettelo()
         self._init_catalog()
         self._create_widgets()
-    
+        self.pankkisivu()
+
+
     def _init_catalog(self):
         # Esimerkkejä tuotteista
         self.catalog.lisaa_tuote(tuote("Apple", 1.50, "Fruit"))
@@ -30,3 +34,16 @@ class ComboBoxApp:
     
     def show_selection(self):
         self.result_label.config(text=f"Selected: {self.combo.get()}")
+
+    def pankkisivu(self):
+        Label(self.root, text="Pankkitilin tilanne").pack(pady=10)
+        Button(self.root, text="Näytä saldo", command=self.saldo).pack(pady=5)
+        Button(self.root, text="Talleta 100 €", command=self.talleta).pack(pady=5)
+        Button(self.root, text="Nosta 50 €", command=self.show_selection).pack(pady=5)
+
+    def saldo(self):
+        messagebox.showinfo("Saldo", f"{self.tili.name}: {self.tili.balance:.2f} €")
+
+    def talleta(self):
+        self.tili.deposit(100.0)
+        messagebox.showinfo("Talletus", "Talletettiin 100 € tilille.")

@@ -2,6 +2,9 @@ import tkinter as tk
 from tkinter import messagebox
 from pankkitili import Account
 
+
+#Tarpeeton ?? 
+#Voi poistaa jos haluaa 
 tili = Account("Käyttäjä", 500.0)
 root = tk.Tk()
 root.title("Pankkisovellus")
