@@ -9,6 +9,8 @@ class ComboBoxApp:
         self.root.geometry("300x250")
         self.root.title("Valitse tuote")
         self.tili = Account("Käyttäjä", 100.0)
+        self.korin_tuotteet = []
+        self.korin_hinta = 0.0
 
         self.catalog = tuoteluettelo()
         self._init_catalog()
@@ -18,12 +20,12 @@ class ComboBoxApp:
 
     def _init_catalog(self):
         # Esimerkkejä tuotteista
-        self.catalog.lisaa_tuote(tuote("Apple", 1.50, "Fruit"))
-        self.catalog.lisaa_tuote(tuote("Banana", 0.75, "Fruit"))
-        self.catalog.lisaa_tuote(tuote("Carrot", 0.50, "Vegetable"))
-        self.catalog.lisaa_tuote(tuote("Doughnut", 2.00, "Snack"))
-        self.catalog.lisaa_tuote(tuote("Eggplant", 1.25, "Vegetable"))
-        self.catalog.lisaa_tuote(tuote("Fig", 2.50, "Fruit"))
+        self.catalog.lisaa_tuote(tuote("Omena", 1.50, "Fruit"))
+        self.catalog.lisaa_tuote(tuote("Banaani", 0.75, "Fruit"))
+        self.catalog.lisaa_tuote(tuote("Porkkana", 0.50, "Vegetable"))
+        self.catalog.lisaa_tuote(tuote("Donitsi", 2.00, "Snack"))
+        self.catalog.lisaa_tuote(tuote("Munakoiso", 1.25, "Vegetable"))
+        self.catalog.lisaa_tuote(tuote("Viikuna", 2.50, "Fruit"))
     
     def _create_widgets(self):
         # Lue UI-elementit
@@ -39,18 +41,70 @@ class ComboBoxApp:
         self.maara.insert(0, "1")
         self.maara.pack(pady=5)
         
-        Button(self.root, text="Näytä valinta", command=self.show_selection).pack(pady=5)
+        button_frame = Frame(self.root)
+        button_frame.pack(pady=10)
+        Button(button_frame, text="Valitse", command=self.show_selection).pack(pady=5)
+        Button(button_frame, text="Lisää ostoskoriin", command=self.add_to_cart).pack(pady=5)
         
         self.result_label = Label(self.root, text="")
         self.result_label.pack(pady=10)
+
+        cart_frame = LabelFrame(self.root, text="Ostoskori")
+        cart_frame.pack(pady=10, padx=10, fill=X)
+
+        self.cart_listbox = Listbox(cart_frame, width=40, height=5)
+        self.cart_listbox.pack(pady=5, padx=5, fill=X)
+
+        self.total_label = Label(cart_frame, text=f"Yhteensä: {self.korin_hinta:.2f} €")
+        self.total_label.pack(side=RIGHT, padx=5, pady=5)
     
     def show_selection(self):
         selected_item = self.combo.get()
         try:
             quantity = int(self.maara.get())
-            self.result_label.config(text=f"Valittu tuote: {selected_item}, Määrä: {quantity}")
+
+            tuote_hinta = 0
+            for item in self.catalog.tuotteet:
+                if str(item) == selected_item:
+                    tuote_hinta = item.price
+                    break
+            total_price = quantity * tuote_hinta
+
+            
+            
+            
+            self.result_label.config(text=f"Valittu tuote: {selected_item}, Määrä: {quantity}, Hinta: {tuote_hinta:.2f} €, Yhteensä: {total_price:.2f} €")
         except ValueError:
             messagebox.showerror("Virhe", "Anna kelvollinen määrä.")
+
+    def add_to_cart(self):
+        selected_item = self.combo.get()
+        try:
+            quantity = int(self.maara.get())
+
+            current_product = None
+            for item in self.catalog.tuotteet:
+                if str(item) == selected_item:
+                    current_product = item
+                    break
+            if current_product:
+
+                item_price = current_product.price * quantity
+
+
+                cart_item = f"{selected_item} x {quantity} - {item_price:.2f} €"
+                self.korin_tuotteet.append((current_product, quantity, item_price))
+                self.cart_listbox.insert(END, cart_item)
+
+                self.korin_hinta += item_price
+                self.total_label.config(text=f"Yhteensä: {self.korin_hinta:.2f} €")
+
+                messagebox.showinfo("Ostoskorin lisäys", f"{selected_item} lisätty ostoskoriin.")
+            else:
+                messagebox.showerror("Virhe", "Valitse tuote ensin.")
+        except ValueError:
+            messagebox.showerror("Virhe", "Anna kelvollinen määrä.")
+
 
     def pankkisivu(self):
         Label(self.root, text="Pankkitilin tilanne").pack(pady=10)
@@ -64,3 +118,4 @@ class ComboBoxApp:
     def talleta(self):
         self.tili.deposit(100.0)
         messagebox.showinfo("Talletus", "Talletettiin 100 € tilille.")
+
