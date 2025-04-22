@@ -125,8 +125,53 @@ class ComboBoxApp:
         if self.tili.balance < self.korin_hinta:
             messagebox.showerror("Virhe", "Tilillä ei ole tarpeeksi varoja.")
             return
-        self.tili.withdrawal(self.korin_hinta)
+        total_hinta = self.korin_hinta
+        self.tili.withdrawal(total_hinta)  # Vähennä hinta tililtä
+        
+
+        self.kuitin_luonti()  # Luo kuitti ostoksesta
+        self.korin_tuotteet.clear()
         messagebox.showinfo("Osto onnistui", f"Ostettiin tuotteet yhteensä {self.korin_hinta:.2f} €.\nTilillä jäljellä: {self.tili.balance:.2f} €")
+        self.clear_cart()  # Tyhjennä ostoskori ostoksen jälkeen
+        
+    def kuitin_luonti(self):
+        from datetime import datetime
+        
+
+        
+
+        now = datetime.now()
+        timestamp = now.strftime("%Y%m%d_%H%M%S")
+        filename = f"kuitit/kuitti_{timestamp}.txt"
+
+        # kuitin sisältö
+        
+        kuitti_teksti = "============Kuitti============\n"
+        kuitti_teksti += f"Ostaja: {self.tili.name}\n"
+        kuitti_teksti += f"Päivämäärä: {now.strftime('%d.%m.%Y %H:%M:%S')}\n"
+        kuitti_teksti += "==============================\n"
+        kuitti_teksti += "Ostetut tuotteet:\n"
+
+        for item, quantity, price in self.korin_tuotteet:
+            kuitti_teksti += f"{item.name} x {quantity} - {price:.2f} €\n"
+        kuitti_teksti += f"\nYhteensä: {self.korin_hinta:.2f} €\n"
+        kuitti_teksti += f"Maksaja: {self.tili.name}\n"
+        kuitti_teksti += f"Tilin saldo: {self.tili.balance:.2f} €\n"
+        kuitti_teksti += "\nKiitos ostoksista!\n"
+        kuitti_teksti += "==============================\n"
+
+        try:
+            with open(filename, "w") as file:
+                file.write(kuitti_teksti)
+            
+        except Exception as e:
+            messagebox.showerror("Virhe", f"Kuittia ei voitu luoda: {e}")
+
+          
+
+
+
+
 
 
     def pankkisivu(self):
