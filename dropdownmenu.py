@@ -7,7 +7,7 @@ class ComboBoxApp:
     def __init__(self, root):
         self.root = root
         self.root.geometry("300x250")
-        self.root.title("Valitse tuote")
+        self.root.title("Kauppasovellus")
         self.tili = Account("Käyttäjä", 100.0)
         self.korin_tuotteet = []
         self.korin_hinta = 0.0
@@ -57,6 +57,11 @@ class ComboBoxApp:
 
         self.total_label = Label(cart_frame, text=f"Yhteensä: {self.korin_hinta:.2f} €")
         self.total_label.pack(side=RIGHT, padx=5, pady=5)
+        
+        # Lisää tyhjennysnappi
+        Button(cart_frame, text="Tyhjennä ostoskori", command=self.clear_cart).pack(side=LEFT, padx=5, pady=5)
+        # ostamisnappi
+        Button(cart_frame, text="Osta", command=self.purchase).pack(side=LEFT, padx=5, pady=5)
     
     def show_selection(self):
         selected_item = self.combo.get()
@@ -104,6 +109,23 @@ class ComboBoxApp:
                 messagebox.showerror("Virhe", "Valitse tuote ensin.")
         except ValueError:
             messagebox.showerror("Virhe", "Anna kelvollinen määrä.")
+
+    def clear_cart(self):
+        self.korin_tuotteet.clear()
+        self.cart_listbox.delete(0, END)
+        self.korin_hinta = 0.0
+        self.total_label.config(text=f"Yhteensä: {self.korin_hinta:.2f} €")
+        messagebox.showinfo("Ostoskori tyhjennetty", "Ostoskori on tyhjennetty.")
+    
+    def purchase(self):
+        if not self.korin_tuotteet:
+            messagebox.showwarning("Ostoskori on tyhjä", "Ostoskorissa ei ole tuotteita.")
+            return
+        if self.tili.balance < self.korin_hinta:
+            messagebox.showerror("Virhe", "Tilillä ei ole tarpeeksi varoja.")
+            return
+        self.tili.withdrawal(self.korin_hinta)
+        messagebox.showinfo("Osto onnistui", f"Ostettiin tuotteet yhteensä {self.korin_hinta:.2f} €.\nTilillä jäljellä: {self.tili.balance:.2f} €")
 
 
     def pankkisivu(self):
