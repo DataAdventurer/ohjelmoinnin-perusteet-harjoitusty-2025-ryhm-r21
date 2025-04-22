@@ -1,3 +1,4 @@
+#r21
 class tuote:
     def __init__(self, nimi, hinta, tuoteryhmä):
         self.name = nimi
