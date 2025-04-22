@@ -140,4 +140,3 @@ class ComboBoxApp:
     def talleta(self):
         self.tili.deposit(100.0)
         messagebox.showinfo("Talletus", "Talletettiin 100 € tilille.")
-

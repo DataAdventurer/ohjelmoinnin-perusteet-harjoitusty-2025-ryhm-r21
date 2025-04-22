@@ -1,2 +1,2 @@
 # ohjelmoinnin-perusteet-harjoitusty-2025-ryhm-r21
-Kurssin harjoitustyö kevät 2025, ryhmä r21
+Tämän projektin idea on, että voit tehdä ostoksia. Kun ostokset on tehty, käytetty raha poistuu tililtä. Aluksi tehtiin esimerkki konsoliin, miltä se voisi näyttää, mutta kun lähdettiin työstämään sitä GUI, huomattiin, että vaikeustaso kasvoi huomattavasti. Sen jälkeen alettiin lisätä pikkuhiljaa uusia tiedostoja. Kaikista vaikein oli dropdownmenu.py-tiedosto, jossa piti yhdistää eri osia ja saada koko homma toimimaan yhdessä.
