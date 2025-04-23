@@ -1,4 +1,5 @@
 #r21
+#Maripuu Kristofer, Petter Paananen, Perälä Aapeli
 class tuote:
     def __init__(self, nimi, hinta, tuoteryhmä):
         self.name = nimi

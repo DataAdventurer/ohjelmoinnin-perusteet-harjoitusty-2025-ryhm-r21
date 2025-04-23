@@ -1,4 +1,5 @@
 #r21
+#Maripuu Kristofer, Petter Paananen, Perälä Aapeli
 class Account:
     def __init__(self, name, balance):
         self.name = name

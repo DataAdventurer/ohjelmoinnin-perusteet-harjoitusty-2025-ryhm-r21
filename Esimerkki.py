@@ -1,4 +1,5 @@
 #r21
+#Maripuu Kristofer, Petter Paananen, Perälä Aapeli
 import random
 from pankkitili import Account
 

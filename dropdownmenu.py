@@ -1,4 +1,5 @@
 #r21
+#Maripuu Kristofer, Petter Paananen, Perälä Aapeli
 from tkinter import *
 from tkinter import ttk, messagebox
 from tuotteet import tuote, tuoteluettelo
@@ -167,18 +168,11 @@ class ComboBoxApp:
         except Exception as e:
             messagebox.showerror("Virhe", f"Kuittia ei voitu luoda: {e}")
 
-          
-
-
-
-
-
-
     def pankkisivu(self):
         Label(self.root, text="Pankkitilin tilanne").pack(pady=10)
         Button(self.root, text="Näytä saldo", command=self.saldo).pack(pady=5)
         Button(self.root, text="Talleta 100 €", command=self.talleta).pack(pady=5)
-        Button(self.root, text="Nosta 50 €", command=self.show_selection).pack(pady=5)
+    
 
     def saldo(self):
         messagebox.showinfo("Saldo", f"{self.tili.name}: {self.tili.balance:.2f} €")
